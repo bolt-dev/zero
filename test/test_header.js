@@ -555,9 +555,7 @@ suite('headerparser', function () {
       // characters in Big5, which were previously mapped to a PUA in an older
       // version but then reassigned to Plane 1. However, Big5 is really a set
       // of slightly different, slightly incompatible charsets.
-      // TODO: This requires future investigation. Bug 912470 discusses the
-      // changes to Big5 proposed within Mozilla.
-      //["=?Big5?Q?=87E?=", "\ud85c\ude67"],
+      ["=?Big5?Q?=87E?=", "\ud85c\ude67"],
       ["=?GB18030?B?lDnaMw==?=", "\ud83d\udca9"],
 
       // How to handle breaks in multi-byte encoding
