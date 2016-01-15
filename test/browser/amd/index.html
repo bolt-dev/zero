@@ -2,6 +2,11 @@
 <html>
 <head>
   <meta charset="UTF-8" />
+  <script>
+    if (!String.prototype.includes) {
+      String.prototype.includes = String.prototype.contains
+    }
+  </script>
   <script src="../mocha.js"></script>
   <script src="../chai.js"></script>
   <script src="require.js"></script>
