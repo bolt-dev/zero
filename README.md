@@ -29,6 +29,23 @@ This code depends on the following ES6 features and Web APIs:
 * btoa, atob (found on global Windows or WorkerScopes)
 * TextDecoder
 
+Developments
+============
+```
+npm install -g mocha # For running mocha tests
+npm install -g http-server # Installing the http-server for firefox test
+http-server # At the jsmime root directory
+
+npm install -g gulp # Installing gulp for mocha test with node
+
+gulp test #Running all the tests
+npm run mocha -- test\test_header.js #Used for running specific test case
+
+gulp bundle # Creating the dist\jsmime.js that could be able used in browser
+gulp coverage # Viewing the running result
+gulp watch # Watch the file changes & generating the dist\jsmime.js automatically
+```
+
 Versions and API stability
 ==========================
 

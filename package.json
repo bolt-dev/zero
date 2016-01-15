@@ -2,12 +2,15 @@
   "name": "jsmime",
   "version": "0.2.0",
   "description": "An asynchronous MIME parser and emitter written in JavaScript",
-  "main": "jsmime.js",
+  "main": "./dist/jsmime.js",
   "directories": {
     "test": "test"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "gulp test",
+    "mocha-all": "mocha -u tdd -r test test/test_*.js",
+    "mocha": "mocha -u tdd -r test",
+    "mocha-debug": "node-debug --hidden node_modules/ node_modules/mocha/bin/_mocha -u tdd -r test"
   },
   "repository": {
     "type": "git",
@@ -17,5 +20,63 @@
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/mozilla-comm/jsmime/issues"
+  },
+  "private": true,
+  "devDependencies": {
+    "atob": "^2.0.0",
+    "babel-core": "^6.4.0",
+    "babel-eslint": "^5.0.0-beta6",
+    "babel-istanbul": "^0.6.0",
+    "babel-plugin-transform-es2015-destructuring": "^6.4.0",
+    "babel-register": "^6.4.3",
+    "babelify": "^7.2.0",
+    "browser-sync": "^2.11.0",
+    "browserify": "^13.0.0",
+    "browserify-babel-istanbul": "^0.3.0",
+    "browserify-istanbul": "^0.2.1",
+    "btoa": "^1.1.2",
+    "chai": "^3.4.1",
+    "gulp": "^3.9.0",
+    "gulp-babel-istanbul": "^0.11.0",
+    "gulp-browserify": "^0.5.1",
+    "gulp-istanbul": "^0.10.3",
+    "gulp-mocha": "^2.2.0",
+    "gulp-plumber": "^1.0.1",
+    "gulp-rename": "^1.2.2",
+    "gulp-sourcemaps": "^1.6.0",
+    "gulp-uglify": "^1.5.1",
+    "gulp-util": "^3.0.7",
+    "isparta": "^4.0.0",
+    "lodash.assign": "^4.0.0",
+    "mocha": "^2.3.4",
+    "mocha-lcov-reporter": "^1.0.0",
+    "requirejs-babel": "0.0.8",
+    "umdify": "^0.1.0",
+    "vinyl-buffer": "^1.0.0",
+    "vinyl-source-stream": "^1.1.0",
+    "watchify": "^3.7.0"
+  },
+  "standard": {
+    "parser": "babel-eslint",
+    "globals": [
+      "__URI__",
+      "Components",
+      "Globals",
+      "Blob",
+      "URL",
+      "FormData",
+      "describe",
+      "dump",
+      "expect",
+      "it",
+      "setup",
+      "suite",
+      "test",
+      "define"
+    ]
+  },
+  "dependencies": {
+    "legacy-encoding": "^3.0.0",
+    "text-encoding": "^0.5.2"
   }
 }

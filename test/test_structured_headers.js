@@ -5,10 +5,14 @@ var assert = require('assert');
 var headerparser = require('jsmime').headerparser;
 
 function smartDeepEqual(actual, expected) {
+  if (actual instanceof Date && expected instanceof Date) {
+    assert.equal(actual.toString(), expected.toString());
+    return
+  }
   assert.deepEqual(actual, expected);
   if (actual instanceof Map && expected instanceof Map) {
-    assert.deepEqual([x for (x of actual.entries())],
-      [y for (y of expected.entries())]);
+    assert.deepEqual(actual.entries(),
+       expected.entries());
   }
 }
 

@@ -52,12 +52,12 @@
  *   to the outermost message/rfc822 envelope.
  */
 
-define(function(require) {
 "use strict";
 
 var mimeutils = require('./mimeutils');
 var headerparser = require('./headerparser');
 var spellings = require('./structuredHeaders').spellings;
+const { TextDecoder } = require('./encodings');
 
 /**
  * An object that represents the structured MIME headers for a message.
@@ -1056,5 +1056,4 @@ var ContentDecoders = {};
 ContentDecoders['quoted-printable'] = mimeutils.decode_qp;
 ContentDecoders['base64'] = mimeutils.decode_base64;
 
-return MimeParser;
-});
+module.exports = MimeParser;

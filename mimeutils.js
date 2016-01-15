@@ -1,4 +1,3 @@
-define(function() {
 "use strict";
 
 /**
@@ -83,11 +82,10 @@ function typedArrayToString(buffer) {
 const kMonthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug",
   "Sep", "Oct", "Nov", "Dec"];
 
-return {
+module.exports = {
   decode_base64: decode_base64,
   decode_qp: decode_qp,
   kMonthNames: kMonthNames,
   stringToTypedArray: stringToTypedArray,
   typedArrayToString: typedArrayToString,
 };
-});

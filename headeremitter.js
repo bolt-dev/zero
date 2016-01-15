@@ -1,4 +1,3 @@
-define(function(require) {
 /**
  * This module implements the code for emitting structured representations of
  * MIME headers into their encoded forms. The code here is a companion to,
@@ -10,6 +9,7 @@ define(function(require) {
 "use strict";
 
 var mimeutils = require('./mimeutils');
+const { TextEncoder } = require('./encodings');
 
 // Get the default structured encoders and add them to the map
 var structuredHeaders = require('./structuredHeaders');
@@ -359,7 +359,8 @@ let nonAsciiRe = /[^\x20-\x7e]/;
 const b64Prelude = "=?UTF-8?B?", qpPrelude = "=?UTF-8?Q?";
 
 /// A list of ASCII characters forbidden in RFC 2047 encoded-words
-const qpForbidden = "=?_()\",";
+const qpForbidden = "=?_()\",".split('').map((x) => x.charCodeAt(0))
+const spaceCharCode = ' '.charCodeAt(0)
 
 const hexString = "0123456789abcdef";
 
@@ -376,23 +377,22 @@ const hexString = "0123456789abcdef";
  */
 HeaderEmitter.prototype._addRFC2047Word = function (encodedText, useQP,
     mayBreakAfter) {
-  let binaryString = mimeutils.typedArrayToString(encodedText);
   if (useQP) {
     var token = qpPrelude;
     for (let i = 0; i < encodedText.length; i++) {
       if (encodedText[i] < 0x20 || encodedText[i] >= 0x7F ||
-          qpForbidden.includes(binaryString[i])) {
+          qpForbidden.indexOf(encodedText[i]) >= 0) {
         let ch = encodedText[i];
         token += "=" + hexString[(ch & 0xf0) >> 4] + hexString[ch & 0x0f];
-      } else if (binaryString[i] == " ") {
+      } else if (encodedText[i] === spaceCharCode) {
         token += "_";
       } else {
-        token += binaryString[i];
+        token += String.fromCharCode(encodedText[i]);
       }
     }
     token += "?=";
   } else {
-    var token = b64Prelude + btoa(binaryString) + "?=";
+    var token = b64Prelude + btoa(encodedText) + "?=";
   }
   this.addText(token, mayBreakAfter);
 };
@@ -427,7 +427,7 @@ HeaderEmitter.prototype.encodeRFC2047Phrase = function (text, mayBreakAfter) {
 
     // The length for quoted-printable is 3 chars only if encoded
     if (encodedText[i] < 0x20 || encodedText[i] >= 0x7f ||
-        qpForbidden.includes(String.fromCharCode(encodedText[i]))) {
+        qpForbidden.indexOf(encodedText[i]) >= 0) {
       qpInc = 3;
     } else {
       qpInc = 1;
@@ -768,12 +768,9 @@ function addStructuredEncoder(header, encoder) {
     preferredSpellings.set(lowerName, header);
 }
 
-return Object.freeze({
+module.exports = Object.freeze({
   addStructuredEncoder: addStructuredEncoder,
   emitStructuredHeader: emitStructuredHeader,
   emitStructuredHeaders: emitStructuredHeaders,
   makeStreamingEmitter: makeStreamingEmitter
 });
-
-});
-

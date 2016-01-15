@@ -3,7 +3,6 @@
  * for several key headers. It is not meant to be used externally to jsmime.
  */
 
-define(function (require) {
 "use strict";
 
 var structuredDecoders = new Map();
@@ -161,10 +160,8 @@ function preprocessMessageIDs(values) {
 structuredDecoders.set("References", preprocessMessageIDs);
 structuredDecoders.set("In-Reply-To", preprocessMessageIDs);
 
-return Object.freeze({
+module.exports = Object.freeze({
   decoders: structuredDecoders,
   encoders: structuredEncoders,
   spellings: preferredSpellings,
-});
-
 });

@@ -83,8 +83,11 @@ function read_file(file, start, end) {
  *                 of the file from [line start, line end) [1-based lines]
  */
 function make_body_test(test, file, opts, partspec) {
-  var results = Promise.all([
-    Promise.all([p[0], read_file(file, p[1], p[2])]) for (p of partspec)]);
+  let readFilePromises = []
+  for (let p of partspec) {
+    readFilePromises.push(Promise.all([p[0], read_file(file, p[1], p[2])]))
+  }
+  var results = Promise.all(readFilePromises);
   var eol = extract_field(opts, "_eol");
   var msgtext = read_file(file).then(function(msgcontents) {
     var packetize = extract_field(opts, "_split");
@@ -187,7 +190,10 @@ function testParser(message, opts, results) {
     let [message, results] = vals;
     // Clone the results array into uncheckedValues
     if (Array.isArray(results)) {
-      uncheckedValues = [for (val of results) val];
+      uncheckedValues = []
+      for (let val of results) {
+        uncheckedValues.push(val);
+      }
       checkingHeaders = false;
     } else {
       uncheckedValues = {};
